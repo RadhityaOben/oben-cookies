@@ -6,3 +6,11 @@ Custom Css
   background-color: #128c7e !important;
   border: 1px solid #075e54 !important;
 }
+
+.about-contact-link {
+  color: #a48cf7 !important;
+}
+
+.about-contact-link:hover {
+  color: #6c5ce7 !important;
+}
