@@ -2,6 +2,33 @@
 <html lang="en">
   <head>
     <title>OBEN Cookies</title>
+    <style>
+      #keranjang {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 10px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+    #keranjang i {
+        margin-right: 5px;
+    }
+    #angka {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -33,6 +60,7 @@
   <body>
     <div id="topNavbar"></div>
     <div id="header"></div>
+    <button id="keranjang"><i class="fas fa-shopping-cart"></i> <span id="angka">0</span></button>
 
     <!-- Start Banner Hero -->
     <div
@@ -225,15 +253,18 @@
                     <i class="text-warning fa fa-star"></i>
                     <i class="text-muted fa fa-star"></i>
                   </li>
-                  <li class="text-muted text-right">Rp 45.00,-</li>
+                  <li class="text-muted text-right">Rp 45.000,-</li>
                 </ul>
+                <center>
                 <a
                   href="product-detail.html"
                   class="h2 text-decoration-none text-dark"
                   >Kue Sagu</a
                 >
-                <p class="card-text">Ini deskripsi kue putra salju</p>
-                <p class="text-muted">Reviews (24)</p>
+                <p class="card-text">Nikmati kelezatan kue sagu istimewa untuk Lebaran! Pesan sekarang dan buat momen bersama keluarga semakin istimewa!</p>
+                <!-- <p class="text-muted">Reviews (24)</p> -->
+                <button class="tambah btn btn-success" data-nama="Kue Nastar" data-harga="5000">Tambah</button>
+              </center>
               </div>
             </div>
           </div>
@@ -257,13 +288,16 @@
                   </li>
                   <li class="text-muted text-right">Rp 50.000.-</li>
                 </ul>
+                <center>
                 <a
                   href="product-detail.html"
                   class="h2 text-decoration-none text-dark"
                   >Kue Nastar</a
                 >
-                <p class="card-text">Ini deskripsi kue nastar</p>
-                <p class="text-muted">Reviews (48)</p>
+                <p class="card-text">Manjakan lidah Anda dengan kelezatan kue nastar klasik kami! Rasakan kelembutan adonan dan cita rasa nan legit di setiap gigitannya.</p>
+                <!-- <p class="text-muted">Reviews (48)</p> -->
+                <button class="tambah btn btn-success" data-nama="Kue Sagu" data-harga="6000">Tambah</button>
+              </center>
               </div>
             </div>
           </div>
@@ -285,15 +319,19 @@
                     <i class="text-warning fa fa-star"></i>
                     <i class="text-warning fa fa-star"></i>
                   </li>
-                  <li class="text-muted text-right">Rp 60.00,-</li>
+                  <li class="text-muted text-right">Rp 60.000,-</li>
                 </ul>
+                <center>
                 <a
                   href="product-detail.html"
                   class="h2 text-decoration-none text-dark"
                   >Kue Putri Salju</a
                 >
-                <p class="card-text">Ini deskripsi kue putri salju</p>
-                <p class="text-muted">Reviews (74)</p>
+                <p class="card-text">Rasakan keanggunan dan kelezatan kue putri salju kami! Setiap gigitan menghadirkan rasa lembutnya yang tak terlupakan.</p>
+                <!-- <p class="text-muted">Reviews (74)</p> -->
+                <!-- <button class="btn btn-success">Tambah Ke Keranjang</button> -->
+                <button class="tambah btn btn-success" data-nama="Kue Putri Salju" data-harga="7000">Tambah ke keranjang</button>
+              </center>
               </div>
             </div>
           </div>
@@ -332,5 +370,54 @@
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
     <!-- End Script -->
+    <script>
+      $(document).ready(function(){
+          // Mendapatkan data dari local storage
+          var keranjangBelanja = JSON.parse(localStorage.getItem('keranjangBelanja')) || {};
+          var jumlahBarang = 0;
+  
+          // Menghitung total kuantitas barang di keranjangBelanja
+          for (var barang in keranjangBelanja) {
+              jumlahBarang += keranjangBelanja[barang].kuantitas;
+          }
+  
+          // Menampilkan total kuantitas barang di tombol keranjang
+          $('#angka').text(jumlahBarang);
+  
+          // Mengatur aksi saat tombol "Tambah" diklik
+          $('.tambah').click(function(){
+              var nama = $(this).data('nama');
+              var harga = $(this).data('harga');
+  
+              // Memeriksa apakah barang sudah ada di keranjang belanja
+              if (keranjangBelanja[nama]) {
+                  // Jika sudah ada, tambahkan kuantitas
+                  keranjangBelanja[nama].kuantitas++;
+              } else {
+                  // Jika belum ada, tambahkan data baru ke keranjang belanja
+                  keranjangBelanja[nama] = {
+                      nama: nama,
+                      harga: harga,
+                      kuantitas: 1
+                  };
+              }
+  
+              // Menyimpan data keranjang belanja ke local storage
+              localStorage.setItem('keranjangBelanja', JSON.stringify(keranjangBelanja));
+  
+              // Menghitung kembali total kuantitas barang di keranjangBelanja
+              jumlahBarang = 0;
+              for (var barang in keranjangBelanja) {
+                  jumlahBarang += keranjangBelanja[barang].kuantitas;
+              }
+  
+              // Menampilkan total kuantitas barang di tombol keranjang
+              $('#angka').text(jumlahBarang);
+          });
+          $('#keranjang').click(function(){
+              window.location.href = "checkout.html"; 
+          });
+      });
+  </script>
   </body>
 </html>
