@@ -3,12 +3,6 @@
   <head>
     <title>OBEN Cookies</title>
     <style>
-      footer {
-        text-align: center;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #ddd;
-    }
       #keranjang {
         background-color: #007bff;
         color: white;
@@ -33,31 +27,6 @@
         border-radius: 50%;
         padding: 5px 8px;
         font-size: 12px;
-    }
-    #checkout {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 999;
-    }
-    #checkout h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    #close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-    }
-    #close i {
-        font-size: 20px;
     }
     </style>
     <meta charset="utf-8" />
@@ -91,19 +60,8 @@
   <body>
     <div id="topNavbar"></div>
     <div id="header"></div>
-    <!-- <button id="keranjang"><i class="fas fa-shopping-cart"></i> <span id="angka">0</span></button> -->
-
     <button id="keranjang"><i class="fas fa-shopping-cart"></i> <span id="angka">0</span></button>
 
-<div id="checkout">
-  
-    <div id="close"><i class="fas fa-times"></i></div>
-    <h2>Checkout</h2>
-    <ul id="checkout-list"></ul>
-    <center>
-    <button id="proses" class="btn btn-success">Proses Checkout</button>
-  </center>
-</div>
     <!-- Start Banner Hero -->
     <div
       id="template-mo-zay-hero-carousel"
@@ -394,11 +352,7 @@
     </section>
     <!-- End Featured Product -->
 
-    <footer>
-      <a href="about.html" class="btn btn-success mb-4">About Us</a>
-      <br>
-      &copy; 2024 Oben Cookies.
-  </footer>
+    <div id="footer"></div>
 
     <!-- Start Script -->
     <script
@@ -421,8 +375,6 @@
           // Mendapatkan data dari local storage
           var keranjangBelanja = JSON.parse(localStorage.getItem('keranjangBelanja')) || {};
           var jumlahBarang = 0;
-          var apiWA = "https://api.whatsapp.com/send/?phone=6282122188545&text=";
-          var textWA = "Halo%2C+saya+ingin+membeli";
   
           // Menghitung total kuantitas barang di keranjangBelanja
           for (var barang in keranjangBelanja) {
@@ -462,45 +414,9 @@
               // Menampilkan total kuantitas barang di tombol keranjang
               $('#angka').text(jumlahBarang);
           });
-          // $('#keranjang').click(function(){
-          //     window.location.href = "checkout.html"; 
-          // });
-
           $('#keranjang').click(function(){
-            $('#checkout').show();
-            tampilkanCheckout();
-        });
-
-        $('#close').click(function(){
-            $('#checkout').hide();
-        });
-
-        $('#proses').click(function(){
-            // Logika untuk proses checkout bisa ditambahkan di sini
-            alert('Proses checkout berhasil!');
-        });
-
-        function tampilkanCheckout() {
-            $('#checkout-list').empty();
-            for (var barang in keranjangBelanja) {
-                var item = keranjangBelanja[barang];
-                $('#checkout-list').append('<li>' + item.nama + ' - Harga: ' + item.harga + ' - Kuantitas: ' + item.kuantitas + '</li>');
-            }
-        }
-        for (var barang in keranjangBelanja) {
-            var item = keranjangBelanja[barang];
-            textWA = textWA + "%0A" + item.nama + "+" + item.kuantitas ;
-
-            // console.log(item.nama + ' - Harga: ' + item.harga + ' - Kuantitas: ' + item.kuantitas);
-        }
-        apiWA += textWA.replace(/ /g, "+");
-        document.getElementById('proses').addEventListener('click', function() {
-            window.location.href = apiWA;
-            // Di sini Anda bisa menambahkan logika untuk mengonfirmasi pesanan
-            // alert('Pesanan Anda telah dikonfirmasi!');
-            // localStorage.removeItem('keranjangBelanja'); // Hapus data keranjang belanja setelah pesanan dikonfirmasi
-            // window.location.href = "index.html"; // Arahkan kembali ke halaman utama setelah pesanan dikonfirmasi
-        });
+              window.location.href = "checkout.html"; 
+          });
       });
   </script>
   </body>
