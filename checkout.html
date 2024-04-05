@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+    button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Checkout</h1>
+    <ul id="checkout-list"></ul>
+    <button id="confirm">Confirm Order</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var keranjangBelanja = JSON.parse(localStorage.getItem('keranjangBelanja')) || {};
+        var checkoutList = document.getElementById('checkout-list');
+        var apiWA = "https://api.whatsapp.com/send/?phone=6282122188545&text=";
+        var textWA = "Halo%2C+saya+ingin+membeli";
+
+        for (var barang in keranjangBelanja) {
+            var item = keranjangBelanja[barang];
+            if(item.kuantitas>0){
+            var listItem = document.createElement('li');
+            listItem.textContent = item.nama + ' - Harga: ' + item.harga + ' - Kuantitas: ' + item.kuantitas;
+            checkoutList.appendChild(listItem);
+            }
+        }
+
+        for (var barang in keranjangBelanja) {
+            var item = keranjangBelanja[barang];
+            textWA = textWA + "%0A" + item.nama + "+" + item.kuantitas ;
+
+            // console.log(item.nama + ' - Harga: ' + item.harga + ' - Kuantitas: ' + item.kuantitas);
+        }
+        apiWA += textWA.replace(/ /g, "+");
+
+        // console.log(textWA.replace(/ /g, "+"));
+
+
+
+
+        document.getElementById('confirm').addEventListener('click', function() {
+            window.location.href = apiWA;
+            // Di sini Anda bisa menambahkan logika untuk mengonfirmasi pesanan
+            // alert('Pesanan Anda telah dikonfirmasi!');
+            // localStorage.removeItem('keranjangBelanja'); // Hapus data keranjang belanja setelah pesanan dikonfirmasi
+            // window.location.href = "index.html"; // Arahkan kembali ke halaman utama setelah pesanan dikonfirmasi
+        });
+    });
+</script>
+
+</body>
+</html>
